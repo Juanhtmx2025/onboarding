@@ -15,28 +15,11 @@ const TraitNames = new PersonalityTraitInfo({
     locale: 'es',
 });
 const createPDF = (html, options, path) => new Promise(((resolve, reject) => {
-  //pdf.create(html, options).toFile(path, (err, result) => {
-  //    if (err !== null) {reject(err);}
-  //    else {resolve(result);}
- // });
-  pdf.create(html, Object.assign({
-      childProcessOptions: {
-
-      env: {
-
-        OPENSSL_CONF: '/dev/null',
-
-      },
-
-    }
-
-  }, options)).toFile(path, (err, result) => {
-
+  pdf.create(html, options).toFile(path, (err, result) => {
       if (err !== null) {reject(err);}
-
       else {resolve(result);}
-
   });
+
 
     
 }));
