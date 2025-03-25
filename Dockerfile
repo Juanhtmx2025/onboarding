@@ -5,6 +5,17 @@ FROM node:16
 # Instala las dependencias necesarias para compilar módulos nativos de Node.js
 RUN apt-get update && apt-get install -y \
     python \
+    libfontconfig \
+    libfreetype6 \
+    libpng-dev \
+    libjpeg-dev \
+    libssl-dev \
+    libx11-dev \
+    libxext-dev \
+    libxrender-dev \
+    wget \
+    curl \
+    ca-certificates \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
