@@ -17,6 +17,17 @@ RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
     build-essential \
+    libfontconfig \
+    libfreetype6 \
+    libpng-dev \
+    libjpeg-dev \
+    libssl-dev \
+    libx11-dev \
+    libxext-dev \
+    libxrender-dev \
+    wget \
+    curl \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Establece el directorio de trabajo dentro del contenedor
