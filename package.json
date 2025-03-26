@@ -16,13 +16,11 @@
 		"express": "^4.15.5",
 		"express-session": "^1.17.0",
 		"express-validator": "^6.5.0",
-		"html-pdf": "^3.0.1",
 		"htmlparser": "1.7.7",
 		"lodash": "^4.17.21",
 		"moment": "^2.27.0",
 		"personality-text-summary": "^2.1.7",
 		"personality-trait-info": "^3.0.5",
-		"phantomjs-prebuilt": "^2.1.16",
 		"puppeteer": "^24.4.0",
 		"request": "2.72.0"
 	},
