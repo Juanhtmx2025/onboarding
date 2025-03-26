@@ -38,7 +38,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
 # Puerto que usará la app (ajústalo si usas otro)
-EXPOSE 8080
+EXPOSE 3000
 
 # Comando para ejecutar tu aplicación
 CMD ["node", "app.js"]
