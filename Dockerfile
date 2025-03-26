@@ -1,29 +1,44 @@
+FROM node:20-slim
 
-# Usa la imagen oficial de Node.js como base
-FROM node:16
-
-# Instala las dependencias necesarias para compilar módulos nativos de Node.js
+# Instalar dependencias necesarias para Puppeteer/Chrome
 RUN apt-get update && apt-get install -y \
-    python \
-    libfontconfig \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    fonts-liberation \
+    libappindicator3-1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libgdk-pixbuf2.0-0 \
+    libnspr4 \
+    libnss3 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    xdg-utils \
+    wget \
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
 
-# Establece el directorio de trabajo dentro del contenedor
+# Establecer el directorio de trabajo
 WORKDIR /usr/src/app
 
-# Copia los archivos package.json y package-lock.json al directorio de trabajo
-COPY package*.json ./
-
-# Instala las dependencias
-RUN npm install
-
-# Copia el resto de la aplicación al directorio de trabajo
+# Copiar archivos del proyecto
 COPY . .
 
-# Expone el puerto en el que la aplicación va a escuchar
+# Instalar dependencias de Node.js
+RUN npm install
+
+# Evitar que Puppeteer descargue Chrome (usaremos el del sistema si es necesario)
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+# Forzar Puppeteer a trabajar sin sandbox (requerido en IBM Code Engine)
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+
+# Puerto que usará la app (ajústalo si usas otro)
 EXPOSE 3000
 
-# Comando para ejecutar la aplicación cuando el contenedor se inicie
-CMD ["npm", "start"]
-
-
+# Comando para ejecutar tu aplicación
+CMD ["node", "app.js"]
