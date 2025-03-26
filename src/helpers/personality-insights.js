@@ -16,9 +16,12 @@ const TraitNames = new PersonalityTraitInfo({
 });
 
 const createPDF = async (html, _options = {}, path) => {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
 
+  const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
   await page.pdf({ path, format: 'A4' });
 
