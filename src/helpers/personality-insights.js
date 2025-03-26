@@ -1,6 +1,7 @@
 const fs = require('fs');
 const ejs = require("ejs");
 const pdf = require('html-pdf');
+const phantomjs = require('phantomjs-prebuilt').path; // 👉 importante
 const api_pi = require("../services/api_personality");
 const TextSummary = require("personality-text-summary");
 const PersonalityTraitInfo = require('personality-trait-info');
@@ -14,15 +15,23 @@ const TraitNames = new PersonalityTraitInfo({
     version: 'v3',
     locale: 'es',
 });
-const createPDF = (html, options, path) => new Promise(((resolve, reject) => {
-  pdf.create(html, options).toFile(path, (err, result) => {
-      if (err !== null) {reject(err);}
-      else {resolve(result);}
+
+const createPDF = (html, options = {}, path) => new Promise(((resolve, reject) => {
+  const fullOptions = {
+    ...options,
+    phantomPath: phantomjs
+  };
+
+  pdf.create(html, fullOptions).toFile(path, (err, result) => {
+    if (err !== null) {
+      reject(err);
+    } else {
+      resolve(result);
+    }
   });
-
-
-    
 }));
+
+
 const buildPersonalityTraitInfo = (responseNLU) => {
   const buildTemplate = {
     Sentiment: {
