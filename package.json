@@ -30,7 +30,6 @@
 		"node": "16.*"
 	},
 	"devDependencies": {
-		"@types/lodash": "^4.14.173",
-		"phantomjs-prebuilt": "^2.1.16"
+		"@types/lodash": "^4.14.173"
 	}
 }
