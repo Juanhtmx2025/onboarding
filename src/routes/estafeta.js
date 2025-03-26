@@ -128,9 +128,9 @@ async function storeAttachment(text, host) {
     "fileContent": contents,
     "fileName": filename,
     "module": "GENERIC_OBJECT",
-    "userId": "sysAPI",
-    "ownerIdType": "NOT_PROVIDED",
-    "ownerId": "noOwner",
+    "userId": "APISAP",
+    "ownerIdType": "USER",
+    "ownerId": "APISAP",
     "description": "Análisis de personalidad"
   }];
 
