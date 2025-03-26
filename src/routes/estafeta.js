@@ -136,7 +136,10 @@ async function storeAttachment(text, host) {
 
   const response = await api_successfactors.storeAttachment(form);
 
+  console.log("📤 Respuesta de storeAttachment:", JSON.stringify(response.data, null, 2)); // 👈 aquí
+
   fs.unlinkSync(path);
+  
   return response;
 }
 
