@@ -75,9 +75,13 @@ exports.store = async (req, res) => {
 };
 
 async function storeAnswers(external_code, attachment_id, data) {
-  let date_now =  moment().format('YYYY-MM-DDTHH:mm:ss');
+  const moment = require('moment');
+  let date_now = moment().format('YYYY-MM-DDTHH:mm:ss');
+
   let form = {
-    "__metadata": {"uri": "cust_Claves_ONB(effectiveStartDate=datetime'" + date_now + "',externalCode='" + external_code + "')"},  
+    "__metadata": {
+      "uri": "cust_Claves_ONB(effectiveStartDate=datetime'" + date_now + "',externalCode='" + external_code + "')"
+    },
     "cust_curso_induccion": strToBool(data.q1),
     "cust_proposito_superior": strToBool(data.q2),
     "cust_valores_organizacionales": strToBool(data.q3),
@@ -90,40 +94,52 @@ async function storeAnswers(external_code, attachment_id, data) {
     "cust_proceso_bienvenida": data.q11,
     "cust_Comentarios_adicionales": data.comments,
     "cust_Carga_documentoNav": {
-      "__metadata":{ "uri":"Attachment("+ attachment_id +")"}
+      "__metadata": { "uri": "Attachment(" + attachment_id + ")" }
     }
   };
 
-  return await api_successfactors.storeAnswers(form);
-    
-};
+  console.log("🧪 Formulario enviado a SuccessFactors:");
+  console.log(JSON.stringify(form, null, 2));
+
+  const response = await api_successfactors.storeAnswers(form);
+
+  console.log("📬 Respuesta de SuccessFactors:");
+  console.log(JSON.stringify(response.data, null, 2));
+
+  return response;
+}
 
 async function storeAttachment(text, host) {
-
   var filename = 'pi_' + Date.now() + '.pdf';
   var path = 'storage/' + filename;
   if (!fs.existsSync('./storage')) fs.mkdirSync('./storage');
 
-  // Hace la llamada a IBM NLU (Natural language understanding)
-  // Y Genera el PDF que se va a enviar en el siguiente paso
   await pi.getPDF(text, host, path);
-  var contents = fs.readFileSync(path, {encoding: 'base64'});
+
+  const stats = fs.statSync(path);
+  console.log("📎 PDF generado:", filename);
+  console.log("📎 Tamaño:", stats.size, "bytes");
+
+  var contents = fs.readFileSync(path, { encoding: 'base64' });
+  console.log("📎 Archivo base64 (primeros 100):", contents.slice(0, 100) + "...");
 
   let form = [{
-    "__metadata": {"uri": "Attachment"},
+    "__metadata": { "uri": "Attachment" },
     "fileContent": contents,
     "fileName": filename,
     "module": "GENERIC_OBJECT",
     "userId": "sysAPI",
     "ownerIdType": "NOT_PROVIDED",
     "ownerId": "noOwner",
-    "description":"Análisis de personalidad"
+    "description": "Análisis de personalidad"
   }];
 
   const response = await api_successfactors.storeAttachment(form);
+
   fs.unlinkSync(path);
   return response;
-};
+}
+
 
 function strToBool(s)
 {
