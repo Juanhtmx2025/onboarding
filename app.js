@@ -5,9 +5,9 @@ var cookieParser = require('cookie-parser');
 var app = express();
 
 var dotenv = require('dotenv');
-//var estafeta = require('./src/routes/estafeta');
-//var test_pi = require('./src/routes/test_pi');
-//var validator = require('./src/validators/encuesta');
+var estafeta = require('./src/routes/estafeta');
+var test_pi = require('./src/routes/test_pi');
+var validator = require('./src/validators/encuesta');
 
 /**
  * Config
@@ -32,9 +32,9 @@ app.use(/* @callback */ function (req, res, next) {
 /**
  * Routes
  */
-//app.post('/search', validator.curp, estafeta.search);
-//app.post('/encuesta', validator.encuesta, estafeta.store);
-//app.get('/test', test_pi.test);
+app.post('/search', validator.curp, estafeta.search);
+app.post('/encuesta', validator.encuesta, estafeta.store);
+app.get('/test', test_pi.test);
 
 // Ruta de salud para Code Engine
 app.get('/', (req, res) => {
