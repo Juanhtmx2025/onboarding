@@ -36,6 +36,11 @@ app.post('/search', validator.curp, estafeta.search);
 app.post('/encuesta', validator.encuesta, estafeta.store);
 app.get('/test', test_pi.test);
 
+// Ruta de salud para Code Engine
+app.get('/', (req, res) => {
+  res.status(200).send('🟢 Aplicación corriendo');
+});
+
 /**
  * Server
  */
