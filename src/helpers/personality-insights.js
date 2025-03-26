@@ -1,7 +1,6 @@
 const fs = require('fs');
 const ejs = require("ejs");
-const pdf = require('html-pdf');
-const phantomjs = require('phantomjs-prebuilt').path; // 👉 importante
+const puppeteer = require('puppeteer');
 const api_pi = require("../services/api_personality");
 const TextSummary = require("personality-text-summary");
 const PersonalityTraitInfo = require('personality-trait-info');
@@ -16,20 +15,18 @@ const TraitNames = new PersonalityTraitInfo({
     locale: 'es',
 });
 
-const createPDF = (html, options = {}, path) => new Promise(((resolve, reject) => {
-  const fullOptions = {
-    ...options,
-    phantomPath: phantomjs
-  };
+const createPDF = async (html, _options = {}, path) => {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
 
-  pdf.create(html, fullOptions).toFile(path, (err, result) => {
-    if (err !== null) {
-      reject(err);
-    } else {
-      resolve(result);
-    }
-  });
-}));
+  await page.setContent(html, { waitUntil: 'networkidle0' });
+  await page.pdf({ path, format: 'A4' });
+
+  await browser.close();
+
+  return { filename: path }; // Para mantener compatibilidad si se espera un objeto similar a html-pdf
+};
+
 
 
 const buildPersonalityTraitInfo = (responseNLU) => {
