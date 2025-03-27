@@ -31,12 +31,6 @@ COPY . .
 # Instalar dependencias de Node.js
 RUN npm install
 
-# Evitar que Puppeteer descargue Chrome (usaremos el del sistema si es necesario)
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-
-# Forzar Puppeteer a trabajar sin sandbox (requerido en IBM Code Engine)
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-
 # Puerto que usará la app (ajústalo si usas otro)
 EXPOSE 8080
 
