@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     xdg-utils \
     wget \
+    chromium \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
@@ -32,7 +33,7 @@ COPY . .
 RUN npm install
 
 # Forzar instalación de Chromium
-RUN node node_modules/puppeteer/install.js
+#RUN node node_modules/puppeteer/install.js
 
 # Puerto que usará la app (ajústalo si usas otro)
 EXPOSE 8080
