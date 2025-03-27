@@ -31,6 +31,9 @@ COPY . .
 # Instalar dependencias de Node.js
 RUN npm install
 
+# Forzar instalación de Chromium
+RUN node node_modules/puppeteer/install.js
+
 # Puerto que usará la app (ajústalo si usas otro)
 EXPOSE 8080
 
