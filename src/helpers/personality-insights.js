@@ -18,7 +18,8 @@ const TraitNames = new PersonalityTraitInfo({
 const createPDF = async (html, _options = {}, path) => {
   const browser = await puppeteer.launch({
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: '/usr/bin/chromium' // <-- esta línea es clave
   });
 
   const page = await browser.newPage();
